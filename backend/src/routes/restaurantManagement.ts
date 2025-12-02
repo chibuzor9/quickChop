@@ -26,6 +26,7 @@ router.get('/analytics', restaurantManagementController.getAnalytics);
 // Profile and settings
 router.get('/profile', restaurantManagementController.getRestaurantProfile);
 router.put('/profile', restaurantManagementController.updateRestaurantProfile);
+router.get('/settings', restaurantManagementController.getRestaurantProfile); // Settings is same as profile
 router.put('/settings', restaurantManagementController.updateRestaurantSettings);
 
 export default router;

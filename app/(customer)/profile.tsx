@@ -42,14 +42,18 @@ export default function ProfileScreen() {
     try {
       setLoading(true);
       const response = await authService.getProfile();
-      const user = response.user;
+      const user = response.data?.user || response.user;
       setFullName(user.fullName || '');
       setEmail(user.email || '');
       setPhoneNumber(user.phoneNumber || '');
       setAddress(user.address || '');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to load profile:', error);
-      Alert.alert('Error', 'Failed to load profile. Please try logging in again.');
+      if (Platform.OS === 'web') {
+        alert('Failed to load profile. Please try logging in again.');
+      } else {
+        Alert.alert('Error', 'Failed to load profile. Please try logging in again.');
+      }
       // If profile fetch fails, might be auth issue - logout
       await authService.logout();
       router.replace('/welcome');
@@ -62,11 +66,20 @@ export default function ProfileScreen() {
     try {
       setSaving(true);
       await authService.updateProfile({ fullName, phoneNumber, address });
-      Alert.alert('Success', 'Profile updated successfully');
+      if (Platform.OS === 'web') {
+        alert('Profile updated successfully!');
+      } else {
+        Alert.alert('Success', 'Profile updated successfully');
+      }
       setEditing(false);
-    } catch (error) {
+      loadProfile(); // Reload to ensure data is fresh
+    } catch (error: any) {
       console.error('Failed to save profile:', error);
-      Alert.alert('Error', 'Failed to update profile');
+      if (Platform.OS === 'web') {
+        alert(error.response?.data?.message || 'Failed to update profile');
+      } else {
+        Alert.alert('Error', error.response?.data?.message || 'Failed to update profile');
+      }
     } finally {
       setSaving(false);
     }

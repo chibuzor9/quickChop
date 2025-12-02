@@ -10,6 +10,7 @@ export interface IRestaurant extends Document {
     deliveryTime: string;
     deliveryFee: number;
     minimumOrder: number;
+    estimatedDeliveryTime?: number; // in minutes
     address: string;
     phoneNumber: string;
     isOpen: boolean;
@@ -18,6 +19,8 @@ export interface IRestaurant extends Document {
         open: string;
         close: string;
     }[];
+    openingTime?: string; // simplified opening time e.g., "09:00 AM"
+    closingTime?: string; // simplified closing time e.g., "10:00 PM"
     ownerId: mongoose.Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
@@ -64,6 +67,9 @@ const restaurantSchema = new Schema<IRestaurant>(
             type: Number,
             default: 0,
         },
+        estimatedDeliveryTime: {
+            type: Number, // in minutes
+        },
         address: {
             type: String,
             required: [true, 'Restaurant address is required'],
@@ -72,9 +78,6 @@ const restaurantSchema = new Schema<IRestaurant>(
             type: String,
         },
         isOpen: {
-            type: Boolean,
-            default: true,
-        },
         openingHours: [
             {
                 day: String,
@@ -82,8 +85,18 @@ const restaurantSchema = new Schema<IRestaurant>(
                 close: String,
             },
         ],
+            openingTime: {
+                type: String, // simplified e.g., "09:00 AM"
+            },
+            closingTime: {
+                type: String, // simplified e.g., "10:00 PM"
+            },
         ownerId: {
             type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+                unique: true, // Each user can only own one restaurant
+            }, type: Schema.Types.ObjectId,
             ref: 'User',
             required: true,
         },

@@ -511,11 +511,29 @@ export const updateRestaurantSettings = async (
             return;
         }
 
-        const { isOpen } = req.body;
+        const {
+            name,
+            description,
+            phone,
+            address,
+            deliveryFee,
+            minimumOrder,
+            estimatedDeliveryTime,
+            isOpen,
+            openingTime,
+            closingTime,
+        } = req.body;
 
-        if (isOpen !== undefined) {
-            restaurant.isOpen = isOpen;
-        }
+        if (name) restaurant.name = name;
+        if (description) restaurant.description = description;
+        if (phone) restaurant.phoneNumber = phone;
+        if (address) restaurant.address = address;
+        if (deliveryFee !== undefined) restaurant.deliveryFee = deliveryFee;
+        if (minimumOrder !== undefined) restaurant.minimumOrder = minimumOrder;
+        if (estimatedDeliveryTime !== undefined) restaurant.estimatedDeliveryTime = estimatedDeliveryTime;
+        if (isOpen !== undefined) restaurant.isOpen = isOpen;
+        if (openingTime) restaurant.openingTime = openingTime;
+        if (closingTime) restaurant.closingTime = closingTime;
 
         await restaurant.save();
 

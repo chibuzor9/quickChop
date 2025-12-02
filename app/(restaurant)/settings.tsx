@@ -74,7 +74,7 @@ export default function RestaurantSettingsScreen() {
         // Populate form fields
         setName(data.name || '');
         setDescription(data.description || '');
-        setPhone(data.phone || '');
+        setPhone(data.phoneNumber || '');
         setAddress(data.address || '');
         setDeliveryFee(data.deliveryFee?.toString() || '');
         setMinimumOrder(data.minimumOrder?.toString() || '');
@@ -85,7 +85,11 @@ export default function RestaurantSettingsScreen() {
       }
     } catch (error: any) {
       console.error('Failed to load settings:', error);
-      Alert.alert('Error', error.response?.data?.message || 'Failed to load settings');
+      if (Platform.OS === 'web') {
+        alert(error.response?.data?.message || 'Failed to load settings');
+      } else {
+        Alert.alert('Error', error.response?.data?.message || 'Failed to load settings');
+      }
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -99,7 +103,11 @@ export default function RestaurantSettingsScreen() {
 
   const handleSave = async () => {
     if (!name.trim() || !phone.trim() || !address.trim()) {
-      Alert.alert('Error', 'Please fill in all required fields (Name, Phone, Address)');
+      if (Platform.OS === 'web') {
+        alert('Please fill in all required fields (Name, Phone, Address)');
+      } else {
+        Alert.alert('Error', 'Please fill in all required fields (Name, Phone, Address)');
+      }
       return;
     }
 
@@ -121,11 +129,19 @@ export default function RestaurantSettingsScreen() {
       if (closingTime) updateData.closingTime = closingTime;
 
       await restaurantService.updateSettings(updateData);
-      Alert.alert('Success', 'Settings updated successfully');
+      if (Platform.OS === 'web') {
+        alert('Settings updated successfully!');
+      } else {
+        Alert.alert('Success', 'Settings updated successfully');
+      }
       loadSettings();
     } catch (error: any) {
       console.error('Failed to save settings:', error);
-      Alert.alert('Error', error.response?.data?.message || 'Failed to save settings');
+      if (Platform.OS === 'web') {
+        alert(error.response?.data?.message || 'Failed to save settings');
+      } else {
+        Alert.alert('Error', error.response?.data?.message || 'Failed to save settings');
+      }
     } finally {
       setSaving(false);
     }
@@ -298,7 +314,11 @@ export default function RestaurantSettingsScreen() {
           <Text style={styles.sectionTitle}>Additional Actions</Text>
 
           <TouchableOpacity style={styles.actionItem} onPress={() => {
-            Alert.alert('Help & Support', 'Contact support at support@quickchop.com');
+            if (Platform.OS === 'web') {
+              alert('Help & Support\n\nContact support at support@quickchop.com');
+            } else {
+              Alert.alert('Help & Support', 'Contact support at support@quickchop.com');
+            }
           }}>
             <View style={styles.actionLeft}>
               <MaterialIcons name="help-outline" size={24} color={colors.text} />
@@ -308,7 +328,11 @@ export default function RestaurantSettingsScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.actionItem} onPress={() => {
-            Alert.alert('About', 'QuickChop v1.0.0\nDelivery App for Restaurants');
+            if (Platform.OS === 'web') {
+              alert('About\n\nQuickChop v1.0.0\nDelivery App for Restaurants');
+            } else {
+              Alert.alert('About', 'QuickChop v1.0.0\nDelivery App for Restaurants');
+            }
           }}>
             <View style={styles.actionLeft}>
               <MaterialIcons name="info-outline" size={24} color={colors.text} />

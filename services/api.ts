@@ -281,6 +281,10 @@ export const restaurantService = {
         return apiClient.put('/restaurant/profile', data);
     },
 
+    async getSettings() {
+        return apiClient.get('/restaurant/settings');
+    },
+
     async updateSettings(data: any) {
         return apiClient.put('/restaurant/settings', data);
     },
