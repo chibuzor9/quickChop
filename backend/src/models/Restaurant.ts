@@ -78,6 +78,9 @@ const restaurantSchema = new Schema<IRestaurant>(
             type: String,
         },
         isOpen: {
+            type: Boolean,
+            default: true,
+        },
         openingHours: [
             {
                 day: String,
@@ -85,20 +88,17 @@ const restaurantSchema = new Schema<IRestaurant>(
                 close: String,
             },
         ],
-            openingTime: {
-                type: String, // simplified e.g., "09:00 AM"
-            },
-            closingTime: {
-                type: String, // simplified e.g., "10:00 PM"
-            },
+        openingTime: {
+            type: String, // simplified e.g., "09:00 AM"
+        },
+        closingTime: {
+            type: String, // simplified e.g., "10:00 PM"
+        },
         ownerId: {
             type: Schema.Types.ObjectId,
             ref: 'User',
             required: true,
-                unique: true, // Each user can only own one restaurant
-            }, type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true,
+            unique: true, // Each user can only own one restaurant
         },
     },
     {
