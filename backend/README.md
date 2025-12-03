@@ -44,7 +44,7 @@ npm install
 
 3. Environment variables are already configured in `.env`:
 ```env
-MONGODB_URI=mongodb+srv://chibuzor9:Preciouser1759@cluster0.b1hcnn5.mongodb.net/quickchop?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<atlas-username>:<user-password>@cluster0.b1hcnn5.mongodb.net/quickchop?retryWrites=true&w=majority
 PORT=3000
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 NODE_ENV=development
