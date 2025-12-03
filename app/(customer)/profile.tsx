@@ -86,44 +86,22 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = async () => {
-    const doLogout = async () => {
-      try {
-        await authService.logout();
-        // Use href for better web compatibility
-        if (Platform.OS === 'web') {
-          window.location.href = '/welcome';
-        } else {
-          router.replace('/welcome');
-        }
-      } catch (error) {
-        console.error('Logout error:', error);
-        // Still navigate to welcome even if logout fails
-        if (Platform.OS === 'web') {
-          window.location.href = '/welcome';
-        } else {
-          router.replace('/welcome');
-        }
+    try {
+      await authService.logout();
+      // Use href for better web compatibility
+      if (Platform.OS === 'web') {
+        window.location.href = '/welcome';
+      } else {
+        router.replace('/welcome');
       }
-    };
-
-    // Use window.confirm on web, Alert on native
-    if (Platform.OS === 'web') {
-      if (window.confirm('Are you sure you want to logout?')) {
-        await doLogout();
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Still navigate to welcome even if logout fails
+      if (Platform.OS === 'web') {
+        window.location.href = '/welcome';
+      } else {
+        router.replace('/welcome');
       }
-    } else {
-      Alert.alert(
-        'Logout',
-        'Are you sure you want to logout?',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          {
-            text: 'Logout',
-            style: 'destructive',
-            onPress: doLogout,
-          },
-        ]
-      );
     }
   };
 

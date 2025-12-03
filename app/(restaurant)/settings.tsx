@@ -343,44 +343,22 @@ export default function RestaurantSettingsScreen() {
 
           <TouchableOpacity
             style={[styles.actionItem, styles.logoutItem]}
-            onPress={() => {
-              const doLogout = async () => {
-                try {
-                  await restaurantService.logout();
-                  // Use window.location for better web compatibility
-                  if (Platform.OS === 'web') {
-                    window.location.href = '/welcome';
-                  } else {
-                    router.replace('/welcome');
-                  }
-                } catch (error) {
-                  console.error('Logout error:', error);
-                  if (Platform.OS === 'web') {
-                    window.location.href = '/welcome';
-                  } else {
-                    router.replace('/welcome');
-                  }
+            onPress={async () => {
+              try {
+                await restaurantService.logout();
+                // Use window.location for better web compatibility
+                if (Platform.OS === 'web') {
+                  window.location.href = '/welcome';
+                } else {
+                  router.replace('/welcome');
                 }
-              };
-
-              // Use window.confirm on web, Alert on native
-              if (Platform.OS === 'web') {
-                if (window.confirm('Are you sure you want to logout?')) {
-                  doLogout();
+              } catch (error) {
+                console.error('Logout error:', error);
+                if (Platform.OS === 'web') {
+                  window.location.href = '/welcome';
+                } else {
+                  router.replace('/welcome');
                 }
-              } else {
-                Alert.alert(
-                  'Logout',
-                  'Are you sure you want to logout?',
-                  [
-                    { text: 'Cancel', style: 'cancel' },
-                    {
-                      text: 'Logout',
-                      style: 'destructive',
-                      onPress: doLogout,
-                    },
-                  ]
-                );
               }
             }}
           >

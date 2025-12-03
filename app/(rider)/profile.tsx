@@ -81,12 +81,16 @@ export default function RiderProfileScreen() {
   };
 
   const handleLogout = async () => {
-    const confirmed = Platform.OS === 'web'
-      ? window.confirm('Are you sure you want to logout?')
-      : true;
-
-    if (confirmed) {
+    try {
       await authService.logout();
+      if (Platform.OS === 'web') {
+        window.location.href = '/welcome';
+      } else {
+        router.replace('/welcome');
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Still navigate to welcome even if logout fails
       if (Platform.OS === 'web') {
         window.location.href = '/welcome';
       } else {
